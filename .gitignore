@@ -15,7 +15,9 @@
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-x64/
+/x64/Release/*
+/x64/Debug/*
+!/x64/Release/IntersectionGUI.exe
 x86/
 bld/
 [Bb]in/
