@@ -6,33 +6,33 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1494</width>
-    <height>1131</height>
+    <width>1600</width>
+    <height>1000</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+   <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1464</width>
-    <height>1131</height>
+    <width>1000</width>
+    <height>1000</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1494</width>
-    <height>1131</height>
+    <width>1600</width>
+    <height>1200</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>IntersectionGUI</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_3">
+   <layout class="QHBoxLayout" name="horizontalLayout_4">
     <item>
      <widget class="QScrollArea" name="scrollArea3">
       <property name="widgetResizable">
@@ -43,41 +43,37 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1028</width>
-         <height>998</height>
+         <width>1100</width>
+         <height>1036</height>
         </rect>
        </property>
-       <widget class="QLabel" name="canvas">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>1000</width>
-          <height>1000</height>
-         </rect>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>1000</width>
-          <height>1000</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>1000</width>
-          <height>1000</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>TextLabel</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="canvas">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>1000</width>
+            <height>1000</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>1000</width>
+            <height>1000</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -88,7 +84,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1494</width>
+     <width>1600</width>
      <height>37</height>
     </rect>
    </property>
@@ -100,6 +96,13 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actAddFile"/>
+   <addaction name="separator"/>
+   <addaction name="actAddShape"/>
+   <addaction name="actDelShape"/>
+   <addaction name="actClear"/>
+   <addaction name="separator"/>
+   <addaction name="actSolve"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="FunctionArea">
@@ -150,6 +153,23 @@
           <string>添加图形</string>
          </property>
          <layout class="QGridLayout" name="gridLayout">
+          <item row="0" column="2">
+           <widget class="QSpinBox" name="data1">
+            <property name="minimum">
+             <number>-100000</number>
+            </property>
+            <property name="maximum">
+             <number>100000</number>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="4">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>y1</string>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="0">
            <widget class="QComboBox" name="shapeType">
             <item>
@@ -174,20 +194,10 @@
             </item>
            </widget>
           </item>
-          <item row="0" column="4">
-           <widget class="QLabel" name="label_3">
+          <item row="1" column="4">
+           <widget class="QLabel" name="label_4">
             <property name="text">
-             <string>y1</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="5">
-           <widget class="QSpinBox" name="data2">
-            <property name="minimum">
-             <number>-100000</number>
-            </property>
-            <property name="maximum">
-             <number>100000</number>
+             <string>y2</string>
             </property>
            </widget>
           </item>
@@ -198,39 +208,8 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="4">
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>y2</string>
-            </property>
-           </widget>
-          </item>
           <item row="1" column="5">
            <widget class="QSpinBox" name="data4">
-            <property name="minimum">
-             <number>-100000</number>
-            </property>
-            <property name="maximum">
-             <number>100000</number>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>x1</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QToolButton" name="tBtnAddShape">
-            <property name="text">
-             <string>...</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <widget class="QSpinBox" name="data1">
             <property name="minimum">
              <number>-100000</number>
             </property>
@@ -246,6 +225,30 @@
             </property>
             <property name="maximum">
              <number>100000</number>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>x1</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="5">
+           <widget class="QSpinBox" name="data2">
+            <property name="minimum">
+             <number>-100000</number>
+            </property>
+            <property name="maximum">
+             <number>100000</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QToolButton" name="tBtnAddShape">
+            <property name="text">
+             <string>...</string>
             </property>
            </widget>
           </item>
