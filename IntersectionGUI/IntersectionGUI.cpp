@@ -160,6 +160,12 @@ void IntersectionGUI::draw_axis()
 	Painter.setPen(QPen(Qt::green, 2));
 	Painter.drawLine(QPoint(0, homeH), QPoint(CANVAS_SIZE, homeH));
 	Painter.drawLine(QPoint(homeW, CANVAS_SIZE), QPoint(homeW , 0));
+	Painter.setPen(QPen(Qt::black, 2));
+	Painter.setPen(QPen(Qt::blue, 2));
+	Painter.drawText(QPoint(homeW - 20, homeH + 20), "0");
+	Painter.drawText(QPoint(CANVAS_SIZE - 80, homeH + 20), "100000");
+	Painter.drawText(QPoint(homeW + 2, 20), "100000");
+	//Painter.drawText(QPoint(homeW - 20, homeH + 2), "0");
 }
 
 void IntersectionGUI::init_canvas()
@@ -168,6 +174,7 @@ void IntersectionGUI::init_canvas()
 	curPixmap.fill(Qt::white);
 	draw_axis();
 	ui.canvas->setPixmap(curPixmap);
+	draw_point(homeW, homeH, Qt::black, 3);
 }
 
 void IntersectionGUI::draw_line(int x1, int y1, int x2, int y2, QColor const c, int const w)
