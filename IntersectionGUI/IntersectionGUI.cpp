@@ -8,8 +8,6 @@
 #include <QFileDialog>
 #include <QPainter>
 
-
-
 IntersectionGUI::IntersectionGUI(QWidget *parent)
 	: QMainWindow(parent)
 {
@@ -22,11 +20,7 @@ IntersectionGUI::IntersectionGUI(QWidget *parent)
 	ui.tBtnClear->setDefaultAction(ui.actClear);
 	ui.tBtnSolve->setDefaultAction(ui.actSolve);
 	ui.listWidget->clear();
-	curPixmap = QPixmap(CANVAS_SIZE, CANVAS_SIZE);
-	curPixmap.fill(Qt::white);
-	draw_axis();
-	//draw_point(500, 500, QColor(10, 20, 20), 10);
-	ui.canvas->setPixmap(curPixmap);
+	init_canvas();
 }
 
 void IntersectionGUI::on_actAddShape_triggered()
@@ -39,6 +33,7 @@ void IntersectionGUI::on_actAddShape_triggered()
 	QString str;
 	if (shapeType == QString::fromLocal8Bit("直线")) {
 		str = str.sprintf("L %d %d %d %d",data1, data2, data3, data4);
+		draw_seg(data1, data2, data3, data4);
 	}
 	else if (shapeType == QString::fromLocal8Bit("线段")) {
 		str = str.sprintf("S %d %d %d %d", data1, data2, data3, data4);
@@ -46,9 +41,11 @@ void IntersectionGUI::on_actAddShape_triggered()
 	}
 	else if (shapeType == QString::fromLocal8Bit("射线")) {
 		str = str.sprintf("R %d %d %d %d", data1, data2, data3, data4);
+		draw_seg(data1, data2, data3, data4);
 	}
 	else {
 		str =  str.sprintf("C %d %d %d", data1, data2, data3);
+		draw_circle(data1, data2, data3);
 	}
 	QListWidgetItem * aItem = new QListWidgetItem(); //新建一个项
 	aItem->setText(str); //设置文字标签
@@ -67,10 +64,19 @@ void IntersectionGUI::on_actDelShape_triggered() {
 			i--;
 		}
 	}
+	init_canvas();
+	// draw remained
+	for (int i = 0; i < ui.listWidget->count(); i++)
+	{
+		QListWidgetItem *aItem = ui.listWidget->item(i);//获取一个项
+		QString str = aItem->text();
+		draw_shape_from_str(str);
+	}
 }
 
 void IntersectionGUI::on_actClear_triggered() {
 	ui.listWidget->clear();
+	init_canvas();
 }
 
 void IntersectionGUI::on_actAddFile_triggered() {
@@ -91,6 +97,7 @@ void IntersectionGUI::on_actAddFile_triggered() {
 		while (N--) {
 			std::getline(fin, line);
 			QString qline = QString::fromStdString(line);
+			draw_shape_from_str(qline);
 			QListWidgetItem * aItem = new QListWidgetItem(); //新建一个项
 			aItem->setText(qline); //设置文字标签
 			aItem->setCheckState(Qt::Unchecked); //设置为选中状态
@@ -117,6 +124,14 @@ void IntersectionGUI::draw_axis()
 	Painter.drawLine(QPoint(homeW, CANVAS_SIZE), QPoint(homeW , 0));
 }
 
+void IntersectionGUI::init_canvas()
+{
+	curPixmap = QPixmap(CANVAS_SIZE, CANVAS_SIZE);
+	curPixmap.fill(Qt::white);
+	draw_axis();
+	ui.canvas->setPixmap(curPixmap);
+}
+
 void IntersectionGUI::draw_line(int x1, int y1, int x2, int y2, QColor const c, int const w)
 {
 	
@@ -138,6 +153,18 @@ void IntersectionGUI::draw_seg(int x1, int y1, int x2, int y2, QColor const c, i
 	ui.canvas->setPixmap(curPixmap);
 }
 
+void IntersectionGUI::draw_circle(int x0, int y0, int r, QColor const c, int const w)
+{
+	QPainter Painter(&curPixmap);
+	Painter.setPen(QPen(c, w));
+	QPoint p0 = xy2whPoint(x0, y0);
+	int r0 = double(r)* RATIO;
+	QString str = str.asprintf("%d %d %d", p0.x() - r0, p0.y() - r0, r0 * 2);
+	LabStatus->setText(str);
+	Painter.drawEllipse(p0.x() - r0, p0.y() - r0, r0 * 2, r0 * 2 );
+	ui.canvas->setPixmap(curPixmap);
+}
+
 void IntersectionGUI::xy2wh(int x, int y, int & w, int & h)
 {
 	w = (double)x * RATIO + homeW;
@@ -149,5 +176,36 @@ QPoint IntersectionGUI::xy2whPoint(int x, int y)
 	int w, h;
 	xy2wh(x, y, w, h);
 	return QPoint(w,h);
+}
+
+void IntersectionGUI::draw_shape_from_str(QString str) {
+	QString shapeType = str.section(" ", 0, 0);
+	if (shapeType == QString::fromLocal8Bit("L")) {
+		int data1 = str.section(" ", 1, 1).toInt();
+		int data2 = str.section(" ", 2, 2).toInt();
+		int data3 = str.section(" ", 3, 3).toInt();
+		int data4 = str.section(" ", 4, 4).toInt();
+		draw_seg(data1, data2, data3, data4);
+	}
+	else if (shapeType == QString::fromLocal8Bit("S")) {
+		int data1 = str.section(" ", 1, 1).toInt();
+		int data2 = str.section(" ", 2, 2).toInt();
+		int data3 = str.section(" ", 3, 3).toInt();
+		int data4 = str.section(" ", 4, 4).toInt();
+		draw_seg(data1, data2, data3, data4);
+	}
+	else if (shapeType == QString::fromLocal8Bit("R")) {
+		int data1 = str.section(" ", 1, 1).toInt();
+		int data2 = str.section(" ", 2, 2).toInt();
+		int data3 = str.section(" ", 3, 3).toInt();
+		int data4 = str.section(" ", 4, 4).toInt();
+		draw_seg(data1, data2, data3, data4);
+	}
+	else {
+		int data1 = str.section(" ", 1, 1).toInt();
+		int data2 = str.section(" ", 2, 2).toInt();
+		int data3 = str.section(" ", 3, 3).toInt();
+		draw_circle(data1, data2, data3);
+	}
 }
 
