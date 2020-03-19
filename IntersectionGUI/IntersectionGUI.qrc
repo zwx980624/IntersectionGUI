@@ -1,4 +1,15 @@
 <RCC>
-    <qresource prefix="IntersectionGUI">
+    <qresource prefix="/IntersectionGUI">
+        <file>Resources/Icons/Add file.ico</file>
+        <file>Resources/Icons/Add.ico</file>
+        <file>Resources/Icons/calculate.ico</file>
+        <file>Resources/Icons/clear.ico</file>
+        <file>Resources/Icons/Delete.ico</file>
+        <file>Resources/Icons/clear2.png</file>
+        <file>Resources/Icons/calcu2.png</file>
+        <file>Resources/Icons/circ.png</file>
+        <file>Resources/Icons/line.png</file>
+        <file>Resources/Icons/ray.png</file>
+        <file>Resources/Icons/seg.png</file>
     </qresource>
 </RCC>

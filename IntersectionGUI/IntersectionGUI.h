@@ -40,6 +40,8 @@ private slots:
 	void on_actClear_triggered();
 	void on_actAddFile_triggered();
 	void on_actSolve_triggered();
+	void on_shapeType_currentIndexChanged();
+	void on_actAbout_triggered();
 };
 
 

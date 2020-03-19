@@ -19,6 +19,7 @@ IntersectionGUI::IntersectionGUI(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
+	ui.mainToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 	LabStatus = new QLabel("");
 	ui.statusBar->addWidget(LabStatus);
 	ui.tBtnAddFile->setDefaultAction(ui.actAddFile);
@@ -130,7 +131,15 @@ void IntersectionGUI::on_actSolve_triggered()
 		input += str.toStdString() + "\n";
 	}
 	std::vector<std::pair<double, double> > points;
-	int cnt = guiProcess(&points, input);
+	int cnt = 0;
+	try {
+		cnt = guiProcess(&points, input);
+	}
+	catch (std::exception e) {
+		QString dlgTitle = QString::fromLocal8Bit("计算出现错误");
+		QMessageBox::critical(this, dlgTitle, e.what());
+		return;
+	}
 	QString str = str.asprintf("%d %d %d", cnt, (int)(points.begin()->first), (int)(points.begin()->second));
 	LabStatus->setText(str);
 	for (auto vit = points.begin(); vit != points.end(); ++vit) {
@@ -139,6 +148,32 @@ void IntersectionGUI::on_actSolve_triggered()
 		QString str = str.asprintf("%d %d %d", cnt, w, h);
 		LabStatus->setText(str);
 		draw_point(w, h, Qt::red);
+	}
+}
+
+void IntersectionGUI::on_shapeType_currentIndexChanged()
+{
+	QString shapeType = ui.shapeType->currentText();
+	int data1 = ui.data1->value();
+	int data2 = ui.data2->value();
+	int data3 = ui.data3->value();
+	int data4 = ui.data4->value();
+	QString str;
+	if (shapeType == QString::fromLocal8Bit("圆")) {
+		ui.label1->setText("x0");
+		ui.label2->setText("y0");
+		ui.label3->setText("r");
+		ui.label4->setText("");
+		ui.data4->setEnabled(false);
+		ui.data3->setMinimum(1);
+		ui.data3->setMaximum(99999);
+	}
+	else {
+		ui.label1->setText("x1");
+		ui.label2->setText("y1");
+		ui.label3->setText("x2");
+		ui.label4->setText("y2");
+		ui.data4->setEnabled(true);
 	}
 }
 
@@ -318,10 +353,15 @@ void IntersectionGUI::draw_shape_from_str(QString str) {
 bool IntersectionGUI::isShapeStrValid(QString str)
 {
 	str = str.trimmed();
-	QRegExp re("([LRS]( (-|\\+)?\\d+){4})|(C( (-|\\+)?\\d+){3})");
+	QRegExp re("([LRS](\\s+(-|\\+)?\\d+){4})|(C(\\s+(-|\\+)?\\d+){3})");
 	if (!re.exactMatch(str)) {
 		return false;
 	}
 	return true;
 }
 
+void IntersectionGUI::on_actAbout_triggered() {
+	QString dlgTitle = QString::fromLocal8Bit("关于“交点求解大师”");
+	QString strInfo = QString::fromLocal8Bit("登把几老开发的\n交点求解大师软件 V1.0 \n保留所有版权\nCopyright 2020 DengJBL\nAll Rights Reserved");
+	QMessageBox::about(this, dlgTitle, strInfo);
+}

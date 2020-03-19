@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1600</width>
-    <height>1106</height>
+    <width>1700</width>
+    <height>1118</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -24,7 +24,7 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>1600</width>
+    <width>1700</width>
     <height>1200</height>
    </size>
   </property>
@@ -34,7 +34,7 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout_4">
     <item>
-     <widget class="QScrollArea" name="scrollArea3">
+     <widget class="QScrollArea" name="scrollArea4">
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
@@ -43,7 +43,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1100</width>
+         <width>1120</width>
          <height>1036</height>
         </rect>
        </property>
@@ -84,10 +84,17 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1600</width>
+     <width>1700</width>
      <height>37</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>关于</string>
+    </property>
+    <addaction name="actAbout"/>
+   </widget>
+   <addaction name="menu"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -108,13 +115,13 @@
   <widget class="QDockWidget" name="FunctionArea">
    <property name="minimumSize">
     <size>
-     <width>420</width>
+     <width>500</width>
      <height>805</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
-     <width>420</width>
+     <width>500</width>
      <height>524287</height>
     </size>
    </property>
@@ -142,6 +149,9 @@
             <property name="text">
              <string>...</string>
             </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
            </widget>
           </item>
          </layout>
@@ -153,95 +163,102 @@
           <string>添加图形</string>
          </property>
          <layout class="QGridLayout" name="gridLayout">
-          <item row="0" column="2">
-           <widget class="QSpinBox" name="data1">
-            <property name="minimum">
-             <number>-100000</number>
+          <item row="0" column="1">
+           <widget class="QLabel" name="label1">
+            <property name="maximumSize">
+             <size>
+              <width>30</width>
+              <height>16777215</height>
+             </size>
             </property>
-            <property name="maximum">
-             <number>100000</number>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="4">
-           <widget class="QLabel" name="label_3">
             <property name="text">
-             <string>y1</string>
+             <string>x1</string>
             </property>
            </widget>
           </item>
           <item row="0" column="0">
            <widget class="QComboBox" name="shapeType">
+            <property name="minimumSize">
+             <size>
+              <width>110</width>
+              <height>0</height>
+             </size>
+            </property>
             <item>
              <property name="text">
               <string>直线</string>
+             </property>
+             <property name="icon">
+              <iconset resource="IntersectionGUI.qrc">
+               <normaloff>:/IntersectionGUI/Resources/Icons/line.png</normaloff>:/IntersectionGUI/Resources/Icons/line.png</iconset>
              </property>
             </item>
             <item>
              <property name="text">
               <string>线段</string>
              </property>
+             <property name="icon">
+              <iconset resource="IntersectionGUI.qrc">
+               <normaloff>:/IntersectionGUI/Resources/Icons/seg.png</normaloff>:/IntersectionGUI/Resources/Icons/seg.png</iconset>
+             </property>
             </item>
             <item>
              <property name="text">
               <string>射线</string>
+             </property>
+             <property name="icon">
+              <iconset resource="IntersectionGUI.qrc">
+               <normaloff>:/IntersectionGUI/Resources/Icons/ray.png</normaloff>:/IntersectionGUI/Resources/Icons/ray.png</iconset>
              </property>
             </item>
             <item>
              <property name="text">
               <string>圆</string>
              </property>
+             <property name="icon">
+              <iconset resource="IntersectionGUI.qrc">
+               <normaloff>:/IntersectionGUI/Resources/Icons/circ.png</normaloff>:/IntersectionGUI/Resources/Icons/circ.png</iconset>
+             </property>
             </item>
            </widget>
           </item>
-          <item row="1" column="4">
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>y2</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>x2</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="5">
-           <widget class="QSpinBox" name="data4">
+          <item row="0" column="2">
+           <widget class="QSpinBox" name="data1">
             <property name="minimum">
-             <number>-100000</number>
+             <number>-99999</number>
             </property>
             <property name="maximum">
-             <number>100000</number>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QSpinBox" name="data3">
-            <property name="minimum">
-             <number>-100000</number>
-            </property>
-            <property name="maximum">
-             <number>100000</number>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>x1</string>
+             <number>99999</number>
             </property>
            </widget>
           </item>
           <item row="0" column="5">
            <widget class="QSpinBox" name="data2">
             <property name="minimum">
-             <number>-100000</number>
+             <number>-99999</number>
             </property>
             <property name="maximum">
-             <number>100000</number>
+             <number>99999</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLabel" name="label3">
+            <property name="text">
+             <string>x2</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QSpinBox" name="data3">
+            <property name="minimum">
+             <number>-99999</number>
+            </property>
+            <property name="maximum">
+             <number>99999</number>
+            </property>
+            <property name="value">
+             <number>1</number>
             </property>
            </widget>
           </item>
@@ -249,6 +266,39 @@
            <widget class="QToolButton" name="tBtnAddShape">
             <property name="text">
              <string>...</string>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="4">
+           <widget class="QLabel" name="label4">
+            <property name="text">
+             <string>y2</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="5">
+           <widget class="QSpinBox" name="data4">
+            <property name="minimum">
+             <number>-99999</number>
+            </property>
+            <property name="maximum">
+             <number>99999</number>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="4">
+           <widget class="QLabel" name="label2">
+            <property name="maximumSize">
+             <size>
+              <width>30</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>y1</string>
             </property>
            </widget>
           </item>
@@ -262,12 +312,18 @@
            <property name="text">
             <string>...</string>
            </property>
+           <property name="toolButtonStyle">
+            <enum>Qt::ToolButtonTextBesideIcon</enum>
+           </property>
           </widget>
          </item>
          <item>
           <widget class="QToolButton" name="tBtnClear">
            <property name="text">
             <string>...</string>
+           </property>
+           <property name="toolButtonStyle">
+            <enum>Qt::ToolButtonTextBesideIcon</enum>
            </property>
           </widget>
          </item>
@@ -303,8 +359,20 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
          <property name="text">
           <string>...</string>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextUnderIcon</enum>
          </property>
         </widget>
        </item>
@@ -314,6 +382,10 @@
    </widget>
   </widget>
   <action name="actAddShape">
+   <property name="icon">
+    <iconset resource="IntersectionGUI.qrc">
+     <normaloff>:/IntersectionGUI/Resources/Icons/Add.ico</normaloff>:/IntersectionGUI/Resources/Icons/Add.ico</iconset>
+   </property>
    <property name="text">
     <string>添加</string>
    </property>
@@ -325,6 +397,10 @@
    </property>
   </action>
   <action name="actDelShape">
+   <property name="icon">
+    <iconset resource="IntersectionGUI.qrc">
+     <normaloff>:/IntersectionGUI/Resources/Icons/Delete.ico</normaloff>:/IntersectionGUI/Resources/Icons/Delete.ico</iconset>
+   </property>
    <property name="text">
     <string>删除</string>
    </property>
@@ -333,6 +409,10 @@
    </property>
   </action>
   <action name="actAddFile">
+   <property name="icon">
+    <iconset resource="IntersectionGUI.qrc">
+     <normaloff>:/IntersectionGUI/Resources/Icons/Add file.ico</normaloff>:/IntersectionGUI/Resources/Icons/Add file.ico</iconset>
+   </property>
    <property name="text">
     <string>文件添加</string>
    </property>
@@ -344,6 +424,10 @@
    </property>
   </action>
   <action name="actClear">
+   <property name="icon">
+    <iconset resource="IntersectionGUI.qrc">
+     <normaloff>:/IntersectionGUI/Resources/Icons/clear2.png</normaloff>:/IntersectionGUI/Resources/Icons/clear2.png</iconset>
+   </property>
    <property name="text">
     <string>清空</string>
    </property>
@@ -352,11 +436,23 @@
    </property>
   </action>
   <action name="actSolve">
+   <property name="icon">
+    <iconset resource="IntersectionGUI.qrc">
+     <normaloff>:/IntersectionGUI/Resources/Icons/calcu2.png</normaloff>:/IntersectionGUI/Resources/Icons/calcu2.png</iconset>
+   </property>
    <property name="text">
     <string>求解交点</string>
    </property>
    <property name="toolTip">
     <string>求解交点</string>
+   </property>
+  </action>
+  <action name="actAbout">
+   <property name="text">
+    <string>关于“交点求解大师”</string>
+   </property>
+   <property name="toolTip">
+    <string>关于“交点求解大师”</string>
    </property>
   </action>
  </widget>
