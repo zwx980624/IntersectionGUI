@@ -29,6 +29,8 @@ IntersectionGUI::IntersectionGUI(QWidget *parent)
 	ui.tBtnSolve->setDefaultAction(ui.actSolve);
 	ui.listWidget->clear();
 	init_canvas();
+	QString str = QString::fromLocal8Bit("注意：画板长度对应-100000到100000，坐标轴目前无放缩功能，若输入数据过小，在视觉上可能导致图形聚集在原点附近。用较大坐标可以得到更好体验。");
+	LabStatus->setText(str);
 }
 
 void IntersectionGUI::on_actAddShape_triggered()
@@ -89,7 +91,8 @@ void IntersectionGUI::on_actClear_triggered() {
 
 void IntersectionGUI::on_actAddFile_triggered() {
 	if (lastPath == QString::fromLocal8Bit("")) {
-		lastPath = QDir::currentPath();//获取系统当前目录
+		lastPath = QDir::currentPath();
+		// = QString::fromLocal8Bit(tmp.data());//获取系统当前目录
 	}
 	//获取应用程序的路径
 	QString dlgTitle = QString::fromLocal8Bit("选择一个文件"); //对话框标题
@@ -97,7 +100,7 @@ void IntersectionGUI::on_actAddFile_triggered() {
 	QString aFileName = QFileDialog::getOpenFileName(this, dlgTitle, lastPath, filter);
 	if (!aFileName.isEmpty()) {
 		lastPath = aFileName;
-		std::ifstream fin(aFileName.toStdString());
+		std::ifstream fin(aFileName.toLocal8Bit());
 		int N;
 		std::string line;
 		fin >> N;
@@ -140,15 +143,19 @@ void IntersectionGUI::on_actSolve_triggered()
 		QMessageBox::critical(this, dlgTitle, e.what());
 		return;
 	}
-	QString str = str.asprintf("%d %d %d", cnt, (int)(points.begin()->first), (int)(points.begin()->second));
-	LabStatus->setText(str);
+	//QString str = str.asprintf("%d %d %d", cnt, (int)(points.begin()->first), (int)(points.begin()->second));
+	//LabStatus->setText(str);
 	for (auto vit = points.begin(); vit != points.end(); ++vit) {
 		int w, h;
 		xy2wh((int)(vit->first), (int)(vit->second), w, h);
-		QString str = str.asprintf("%d %d %d", cnt, w, h);
-		LabStatus->setText(str);
+		//QString str = str.asprintf("%d %d %d", cnt, w, h);
+		//LabStatus->setText(str);
 		draw_point(w, h, Qt::red);
 	}
+	QString dlgTitle = QString::fromLocal8Bit("计算结果");
+	QString strInfo = QString::fromLocal8Bit("交点总数为：");
+	strInfo += strInfo.asprintf("%d", cnt);
+	QMessageBox::information(this, dlgTitle, strInfo,QMessageBox::Ok, QMessageBox::NoButton);
 }
 
 void IntersectionGUI::on_shapeType_currentIndexChanged()
@@ -225,8 +232,8 @@ void IntersectionGUI::draw_seg(int x1, int y1, int x2, int y2, QColor const c, i
 	Painter.setPen(QPen(c, w));
 	QPoint p1 = xy2whPoint(x1, y1);
 	QPoint p2 = xy2whPoint(x2, y2);
-	QString str = str.asprintf("%d %d %d %d %d %d %d %d", p1.x(), p1.y(), p2.x(), p2.y(), x1, y1, x2, y2);
-	LabStatus->setText(str);
+	//QString str = str.asprintf("%d %d %d %d %d %d %d %d", p1.x(), p1.y(), p2.x(), p2.y(), x1, y1, x2, y2);
+	//LabStatus->setText(str);
 	Painter.drawLine(p1, p2);
 	ui.canvas->setPixmap(curPixmap);
 }
@@ -287,8 +294,8 @@ void IntersectionGUI::draw_ray(int x1, int y1, int x2, int y2, QColor const c, i
 	}
 	QPoint p1 = xy2whPoint(x1, y1);
 	QPoint p2 = xy2whPoint(x2, y2);
-	QString str = str.asprintf("%d %d %d %d %d %d %d %d", p1.x(), p1.y(), p2.x(), p2.y(), x1, y1, x2, y2);
-	LabStatus->setText(str);
+	//QString str = str.asprintf("%d %d %d %d %d %d %d %d", p1.x(), p1.y(), p2.x(), p2.y(), x1, y1, x2, y2);
+	//LabStatus->setText(str);
 	Painter.drawLine(p1, p2);
 	ui.canvas->setPixmap(curPixmap);
 }
@@ -300,8 +307,8 @@ void IntersectionGUI::draw_circle(int x0, int y0, int r, QColor const c, int con
 	Painter.setPen(QPen(c, w));
 	QPoint p0 = xy2whPoint(x0, y0);
 	int r0 = double(r)* RATIO;
-	QString str = str.asprintf("%d %d %d", p0.x() - r0, p0.y() - r0, r0 * 2);
-	LabStatus->setText(str);
+	//QString str = str.asprintf("%d %d %d", p0.x() - r0, p0.y() - r0, r0 * 2);
+	//LabStatus->setText(str);
 	Painter.drawEllipse(p0.x() - r0, p0.y() - r0, r0 * 2, r0 * 2 );
 	ui.canvas->setPixmap(curPixmap);
 }
