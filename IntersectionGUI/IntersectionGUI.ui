@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
-    <height>777</height>
+    <width>1362</width>
+    <height>961</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -90,7 +90,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1000</width>
+     <width>1362</width>
      <height>37</height>
     </rect>
    </property>
@@ -119,6 +119,9 @@
    <addaction name="actClear"/>
    <addaction name="separator"/>
    <addaction name="actSolve"/>
+   <addaction name="separator"/>
+   <addaction name="actSample1"/>
+   <addaction name="actSample2"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="FunctionArea">
@@ -498,6 +501,22 @@
    </property>
    <property name="toolTip">
     <string>关于“交点求解大师”</string>
+   </property>
+  </action>
+  <action name="actSample1">
+   <property name="text">
+    <string>样例外星人</string>
+   </property>
+   <property name="toolTip">
+    <string>样例外星人</string>
+   </property>
+  </action>
+  <action name="actSample2">
+   <property name="text">
+    <string>样例小心心</string>
+   </property>
+   <property name="toolTip">
+    <string>样例小心心</string>
    </property>
   </action>
  </widget>

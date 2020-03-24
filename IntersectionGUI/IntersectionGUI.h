@@ -42,6 +42,8 @@ private slots:
 	void on_actSolve_triggered();
 	void on_shapeType_currentIndexChanged();
 	void on_actAbout_triggered();
+	void on_actSample1_triggered();
+	void on_actSample2_triggered();
 };
 
 

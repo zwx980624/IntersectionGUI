@@ -10,6 +10,7 @@
 #include <vector>
 #include <utility>
 #include <QMessageBox>
+#include <sstream>
 
 #pragma comment(lib,"calcInterface.lib")
 _declspec(dllexport) extern "C" int guiProcess(std::vector<std::pair<double, double>> *points, std::string msg);
@@ -99,6 +100,7 @@ void IntersectionGUI::on_actAddFile_triggered() {
 	QString filter = QString::fromLocal8Bit("文本文件(*.txt);;所有文件(*.*)"); //文件过滤器
 	QString aFileName = QFileDialog::getOpenFileName(this, dlgTitle, lastPath, filter);
 	if (!aFileName.isEmpty()) {
+		ui.fileName->setText(aFileName);
 		lastPath = aFileName;
 		std::ifstream fin(aFileName.toLocal8Bit());
 		int N;
@@ -327,32 +329,32 @@ QPoint IntersectionGUI::xy2whPoint(int x, int y)
 }
 
 void IntersectionGUI::draw_shape_from_str(QString str) {
-	QString shapeType = str.section(" ", 0, 0);
+	QString shapeType = str.section(QRegExp("\\s+"), 0, 0);
 	if (shapeType == QString::fromLocal8Bit("L")) {
-		int data1 = str.section(" ", 1, 1).toInt();
-		int data2 = str.section(" ", 2, 2).toInt();
-		int data3 = str.section(" ", 3, 3).toInt();
-		int data4 = str.section(" ", 4, 4).toInt();
+		int data1 = str.section(QRegExp("\\s+"), 1, 1).toInt();
+		int data2 = str.section(QRegExp("\\s+"), 2, 2).toInt();
+		int data3 = str.section(QRegExp("\\s+"), 3, 3).toInt();
+		int data4 = str.section(QRegExp("\\s+"), 4, 4).toInt();
 		draw_line(data1, data2, data3, data4);
 	}
 	else if (shapeType == QString::fromLocal8Bit("S")) {
-		int data1 = str.section(" ", 1, 1).toInt();
-		int data2 = str.section(" ", 2, 2).toInt();
-		int data3 = str.section(" ", 3, 3).toInt();
-		int data4 = str.section(" ", 4, 4).toInt();
+		int data1 = str.section(QRegExp("\\s+"), 1, 1).toInt();
+		int data2 = str.section(QRegExp("\\s+"), 2, 2).toInt();
+		int data3 = str.section(QRegExp("\\s+"), 3, 3).toInt();
+		int data4 = str.section(QRegExp("\\s+"), 4, 4).toInt();
 		draw_seg(data1, data2, data3, data4);
 	}
 	else if (shapeType == QString::fromLocal8Bit("R")) {
-		int data1 = str.section(" ", 1, 1).toInt();
-		int data2 = str.section(" ", 2, 2).toInt();
-		int data3 = str.section(" ", 3, 3).toInt();
-		int data4 = str.section(" ", 4, 4).toInt();
+		int data1 = str.section(QRegExp("\\s+"), 1, 1).toInt();
+		int data2 = str.section(QRegExp("\\s+"), 2, 2).toInt();
+		int data3 = str.section(QRegExp("\\s+"), 3, 3).toInt();
+		int data4 = str.section(QRegExp("\\s+"), 4, 4).toInt();
 		draw_ray(data1, data2, data3, data4);
 	}
 	else {
-		int data1 = str.section(" ", 1, 1).toInt();
-		int data2 = str.section(" ", 2, 2).toInt();
-		int data3 = str.section(" ", 3, 3).toInt();
+		int data1 = str.section(QRegExp("\\s+"), 1, 1).toInt();
+		int data2 = str.section(QRegExp("\\s+"), 2, 2).toInt();
+		int data3 = str.section(QRegExp("\\s+"), 3, 3).toInt();
 		draw_circle(data1, data2, data3);
 	}
 }
@@ -371,4 +373,56 @@ void IntersectionGUI::on_actAbout_triggered() {
 	QString dlgTitle = QString::fromLocal8Bit("关于“交点求解大师”");
 	QString strInfo = QString::fromLocal8Bit("登把几老开发的\n交点求解大师软件 V1.0 \n保留所有版权\nCopyright 2020 DengJBL\nAll Rights Reserved");
 	QMessageBox::about(this, dlgTitle, strInfo);
+}
+
+void IntersectionGUI::on_actSample1_triggered()
+{
+	on_actClear_triggered();
+	std::string s = "17\nS 50000 99990 10000 80000\nS 50000 99990 90000 80000\nS 30000 80000 10000 80000\nS 30000 80000 70000 80000\nS 70000 80000 90000 80000\nS 30000 80000 30000 20000\nS 70000 80000 70000 20000\nS 30000 20000 70000 20000\nS 42000 32000 50000 28000\nS 50000 28000 58000 32000\nR 30000 20000 10000 0\nR 70000 20000 90000 0\nR 38000 20000 38000 0\nR 46000 20000 46000 0\nR 54000 20000 54000 0\nR 62000 20000 62000 0\nC 50000 64000 5000";
+	std::istringstream iss(s);
+	int N;
+	std::string line;
+	iss >> N;
+	std::getline(iss, line);
+	while (N--) {
+		std::getline(iss, line);
+		QString qline = QString::fromStdString(line);
+		if (!isShapeStrValid(qline)) {
+			QString dlgTitle = QString::fromLocal8Bit("输入格式错误");
+			QMessageBox::critical(this, dlgTitle, qline);
+			break;
+		}
+		draw_shape_from_str(qline);
+		QListWidgetItem * aItem = new QListWidgetItem(); //新建一个项
+		aItem->setText(qline); //设置文字标签
+		aItem->setCheckState(Qt::Unchecked); //设置为选中状态
+		aItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+		ui.listWidget->addItem(aItem); //增加一个项
+	}
+}
+
+void IntersectionGUI::on_actSample2_triggered()
+{
+	on_actClear_triggered();
+	std::string s = "14\nS 10000 10000 0 0\nS 20000 20000 10000 10000\nS -10000 10000 0 0\nS -20000 20000 -10000 10000\nS -10000 30000 0 20000\nS 0 20000 10000 30000\nS -10000 30000 -20000 20000\nS 10000 30000 20000 20000\nS 0 0 0 20000\nS 0 20000 -20000 20000\nS 0 20000 20000 20000\nS -10000 30000 -10000 10000\nS 10000 10000 10000 30000\nS 0 0  0 -10000";
+	std::istringstream iss(s);
+	int N;
+	std::string line;
+	iss >> N;
+	std::getline(iss, line);
+	while (N--) {
+		std::getline(iss, line);
+		QString qline = QString::fromStdString(line);
+		if (!isShapeStrValid(qline)) {
+			QString dlgTitle = QString::fromLocal8Bit("输入格式错误");
+			QMessageBox::critical(this, dlgTitle, qline);
+			break;
+		}
+		draw_shape_from_str(qline);
+		QListWidgetItem * aItem = new QListWidgetItem(); //新建一个项
+		aItem->setText(qline); //设置文字标签
+		aItem->setCheckState(Qt::Unchecked); //设置为选中状态
+		aItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+		ui.listWidget->addItem(aItem); //增加一个项
+	}
 }
